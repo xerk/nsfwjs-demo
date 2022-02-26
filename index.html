@@ -8,36 +8,43 @@
         <title>Filter Spam Files</title>
     </head>
     <body>
-        <img
-            id="display-image"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOlJA999-VQCDWy6_p1uY_WWoxUeHKjhWOoA&usqp=CAU"
-            width="300"
-            alt=""
+        <label for="image-input">Image URL</label>
+        <input
+            type="text"
+            name=""
+            id="image-input"
+            style="display: block; margin-bottom: 12px; width: 300px"
         />
-        <ul
-            id="display-nsfwjs"
-            style="margin-top: 8px; list-style: none"
-        ></ul>
-        <script
-            src="https://unpkg.com/@tensorflow/tfjs@2.6.0"
-            type="text/javascript"
-        ></script>
-        <script src="https://unpkg.com/nsfwjs@2.3.0" type="text/javascript"></script>
-        
-        <!-- For testing: Load from local bundle `yarn scriptbundle && yarn minbundle` -->
-        <!-- <script src="../../dist/nsfwjs.min.js"></script> -->
-        
-        <script>
-            // const nsfwjs = require('nsfwjs')
+        <small style="display: block;"">Please Copy and past ur image URL</small>
+        <img id="display-image" src="" width="300" alt="" />
+        <ul id="display-nsfwjs" style="margin-top: 8px; list-style: none"></ul>
+    </body>
+    <script
+        src="https://unpkg.com/@tensorflow/tfjs@2.6.0"
+        type="text/javascript"
+    ></script>
+    <script
+        src="https://unpkg.com/nsfwjs@2.3.0"
+        type="text/javascript"
+    ></script>
+
+    <!-- For testing: Load from local bundle `yarn scriptbundle && yarn minbundle` -->
+    <!-- <script src="../../dist/nsfwjs.min.js"></script> -->
+
+    <script>
+        // const nsfwjs = require('nsfwjs')
+        const imageInput = document.getElementById('image-input');
+        imageInput.addEventListener('change', (event) => {
+            console.log(event.target.value)
             const nsfwjsDom = document.getElementById('display-nsfwjs');
             const imageDom = document.getElementById('display-image');
-        
+
             const img = new Image();
             img.crossOrigin = 'anonymous';
             // some image here
-            img.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOlJA999-VQCDWy6_p1uY_WWoxUeHKjhWOoA&usqp=CAU';
-            // imageDom.src = "https://i.imgur.com/Kwxetau.jpg";
-        
+            imageDom.src = imageInput.value;
+            img.src = `${imageInput.value}`;
+
             // Load the model.
             nsfwjs.load().then((model) => {
                 // Classify the image.
@@ -56,7 +63,7 @@
                     console.log('Predictions', predictions);
                 });
             });
-        </script>
-        <pre>Checkout console.log output for results!</pre>
-    </body>
+        });
+    </script>
+    <pre>Checkout console.log output for results!</pre>
 </html>

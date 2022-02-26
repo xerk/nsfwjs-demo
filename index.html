@@ -35,8 +35,11 @@
         // const nsfwjs = require('nsfwjs')
         const imageInput = document.getElementById('image-input');
         imageInput.addEventListener('change', (event) => {
-            console.log(event.target.value)
             const nsfwjsDom = document.getElementById('display-nsfwjs');
+            nsfwjsDom.innerHTML = ''
+            if (!event.target.value) {
+                return
+            }
             const imageDom = document.getElementById('display-image');
 
             const img = new Image();
@@ -49,6 +52,7 @@
             nsfwjs.load().then((model) => {
                 // Classify the image.
                 model.classify(img).then((predictions) => {
+                    nsfwjsDom.innerHTML = ''
                     predictions.forEach((prediction) => {
                         const node = document.createElement('li');
                         const textnode = document.createTextNode(
